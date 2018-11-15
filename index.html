@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Яндекс.Аэро</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div id="app">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Yandex.Aero</h1>
+            <p class="lead">The whole world at a glance.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <transition name="fade-in">
+            <div v-if="!preloader">
+                <h4>Step 1:</h4>
+                <div class="h6">
+                    Enter the city and select the airport
+                </div>
+                <div class="form-group">
+                    <!--<v-autocomplete
+                            v-model="curAirport"
+                            :items="airports"
+                    >
+
+                    </v-autocomplete>-->
+                    <input list="airports" v-model="airportName" placeholder="Enter the city or the airport name"
+                           class="form-control"
+                           @input="inputAirportsMatch" @change="getInfoFlights">
+
+                    <datalist id="airports">
+                        <option :value="airport.name" :label="airport.city" v-for="airport in airportsMatch"></option>
+                    </datalist>
+                </div>
+            </div>
+        </transition>
+
+        <transition name="fade-in">
+            <div v-if="flights.length !== 0">
+                <div>
+                    <h4>Step2:</h4>
+                    <div class="h6">Select type flight</div>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-secondary yellow-btn" @click="setTab('arrival')" :class="{'active': tab === 'arrival'}">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> Arrival
+                        </label>
+                        <label class="btn btn-secondary yellow-btn" @click="setTab('departure')"
+                               :class="{'active': tab === 'departure'}">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> Departure
+                        </label>
+                        <label class="btn btn-secondary yellow-btn" @click="setTab('delayed')" :class="{'active': tab === 'delayed'}">
+                            <input type="radio" name="options" id="option3" autocomplete="off"> Delayed
+                        </label>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </transition>
+
+        <div v-if="flights.length !== 0">
+            <table class="table">
+                <tbody>
+                <transition-group name="custom-animate" tag="tr">
+                    <tr v-for="(flight, index) in flights" :key="flight.index">
+                        <td>{{ flight.time }}</td>
+                        <td>{{ flight.City }}</td>
+                        <td>{{ flight.flight.iataNumber }}</td>
+                        <td>{{ flight.terminal }}</td>
+                        <td>{{ flight.status }}</td>
+                    </tr>
+                </transition-group>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <transition name="fade-out" v-if="preloader">
+        <div class="preloader">
+            <img src="assets/img/air.gif" alt="" class="preloader__gif">
+        </div>
+    </transition>
+
+    <div class="preloader__circles" v-if="preloader_circle">
+        <div></div>
+        <div style="animation-delay: .2s;"></div>
+        <div style="animation-delay: .4s;"></div>
+    </div>
+</div>
+
+<script src="assets/js/vue.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
