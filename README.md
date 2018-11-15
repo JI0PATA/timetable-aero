@@ -3,3 +3,4 @@
 Работает только с отключенными CORS.  
 Плагин: https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi  
 Тестировал на аэропорту Казани  
+Демо: http://timetable-aero.it-jump.ru
